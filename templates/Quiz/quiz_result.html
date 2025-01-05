@@ -1,0 +1,86 @@
+{% extends 'base2.html' %}
+{% block content %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Quiz Results</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            .container {
+                margin-top: 50px;
+            }
+
+            .card {
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            .card-header {
+                background-color: midnightblue;
+                color: white;
+            }
+
+            .badge {
+                font-size: 1.25em;
+            }
+        </style>
+    </head>
+    <body>
+    <br><br>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h1 style="color: white" class="mb-0">Quiz Results</h1>
+                </div>
+                <div class="card-body text-center">
+                {% if percentage >= 80 %}
+                    <i class="fa fa-check-circle" style="font-size:170px;color:green"></i>
+                    <p>Congratulations! You passed your course!!</p><br>
+                {% else %}
+                <i class="fa fa-close" style="font-size:180px;color:red"></i>
+                    <p>Please Try Again to pass your course!!</p><br>
+                {% endif %}
+                    <div class="row mb-3">
+                        <div class="col">
+                            <p class="h4">Score: <span class="badge badge-success">{{ quiz_attempt.score }}</span></p>
+                        </div>
+                        <div class="col">
+                            <p class="h4">Percentage: <span class="badge badge-info">{{ percentage }}</span>%</p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <p class="h4">Correct answers: <span class="badge badge-primary">{{ quiz_attempt.score }}</span></p>
+                        </div>
+                        <div class="col">
+                            <p class="h4">Incorrect answers: <span class="badge badge-danger">{{ incorrect_answers }}</span></p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <p class="h4">Total questions: <span class="badge badge-secondary">{{ quiz_attempt.quiz.questions.count }}</span></p>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        {% if percentage >= 80 %}
+                            <a href="{% url 'home' %}" class="btn btn-outline-primary">Go to Home</a>
+                        {% else %}
+                            <a href="" class="btn btn-outline-primary">Try again</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    </body>
+    </html>
+
+{% endblock %}

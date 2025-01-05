@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <!-- PAGE TITLE
+        ================================================== -->
+    <header class="py-8 py-md-11" style="background-image: none;">
+        <div class="container text-center py-xl-2">
+            <h1 class="display-4 fw-semi-bold mb-0">Signup</h1>
+        </div>
+    </header>
+
+
+    <!-- REGISTER
+    ================================================== -->
+    <div class="container mb-11">
+        <div class="row gx-0">
+            <div class="col-md-7 col-xl-4 mx-auto">
+
+                {% include 'components/messages.html' %}
+                <!-- Form Register -->
+                <form class="mb-5" method="post" action="{% url 'signup' %}">
+                    {% csrf_token %}
+                    <!-- Username -->
+                    <div class="form-group mb-5">
+                        <label for="modalSignupUsername1">
+                            Username
+                        </label>
+                        <input type="text" class="form-control" id="modalSignupUsername1" placeholder="John"
+                               name="username">
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group mb-5">
+                        <label for="modalSignupEmail1">
+                            Email
+                        </label>
+                        <input type="email" class="form-control" id="modalSignupEmail1"
+                               placeholder="johndoe@creativelayers.com" name="email">
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group mb-5">
+                        <label for="modalSignupPassword3">
+                            Password
+                        </label>
+                        <input type="password" class="form-control" id="modalSignupPassword3" placeholder="**********"
+                               name="password">
+                        <div id="passwordFeedback" class="invalid-feedback">
+                            Password must be at least 8 characters long, contain at least one uppercase letter, one
+                            lowercase letter, one number, and one special character.
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="signupButton">Sign Up</button>
+
+                </form>
+
+                <!-- Text -->
+                <p class="mb-0 font-size-sm text-center">
+                    Already have an account? <a class="text-underline" href="{% url 'login' %}">Log In</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+<script>
+document.getElementById('signupButton').addEventListener('click', function(event) {
+    const passwordInput = document.getElementById('modalSignupPassword3');
+    const passwordFeedback = document.getElementById('passwordFeedback');
+    
+    const password = passwordInput.value;
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordPattern.test(password)) {
+        event.preventDefault(); // Prevent form submission
+        passwordFeedback.style.display = 'block';
+        passwordInput.classList.add('is-invalid');
+    } else {
+        passwordFeedback.style.display = 'none';
+        passwordInput.classList.remove('is-invalid');
+    }
+});
+
+</script>
+{% endblock %}

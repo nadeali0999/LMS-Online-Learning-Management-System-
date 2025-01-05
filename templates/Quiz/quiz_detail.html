@@ -1,0 +1,66 @@
+{% extends 'base2.html' %}
+{% block content %}
+<div class="container">
+    <br><br><br>
+    <h1 style="text-align: center;">{{ quiz.title }}</h1>
+    <h3 style="text-align: right;">Time remaining: <span id="timer"></span></h3>
+    <form id="quizForm" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <label style="font-weight: bold; font-size: 16px;">{{ field.label_tag }}</label><br>
+            {{ field }}
+        {% endfor %}<br>
+        <button type="submit" style="background-color: green; font-size: 30px;">Submit</button>
+    </form>
+</div>
+
+<!-- Ensure jQuery is loaded -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    function startTimer(duration, display) {
+        var timer = duration, minutes, seconds;
+        var endInterval = setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (--timer < 0) {
+                clearInterval(endInterval);
+                submitQuiz(); // Call function to submit the quiz via AJAX
+            }
+        }, 1000);
+    }
+
+    function submitQuiz() {
+        $.ajax({
+            type: "POST",
+            url: window.location.href,
+            data: $('#quizForm').serialize(),
+            success: function (response) {
+                // Handle success response, such as showing quiz results or redirecting to a new page
+                console.log(response);
+                alert("Quiz submitted successfully!");
+                // Optionally redirect or show results here
+                // window.location.href = '/path/to/results/page';
+            },
+            error: function (xhr, status, error) {
+                // Handle error response
+                console.log(xhr.responseText);
+                alert("An error occurred while submitting the quiz. Please try again.");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        var time = {{ total_time_seconds }};
+        console.log("Total time (seconds):", time); // Debugging line
+        var display = document.querySelector('#timer');
+        startTimer(time, display);
+    });
+</script>
+{% endblock %}

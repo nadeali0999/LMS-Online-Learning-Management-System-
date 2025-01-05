@@ -1,0 +1,212 @@
+{% load static %}
+{% block content %}
+    <footer class="pt-8 pt-md-11 position-relative bg-darken dark-70 bg-gigas">
+        <div class="container">
+            <div class="row" id="accordionFooter">
+                <div class="col-12 col-md-4 col-lg-4 pt-8">
+
+                    <!-- Brand -->
+                    <img src="{% static 'assets/img/favicon.png' %}" alt="..."
+                         class="footer-brand img-fluid mb-4 h-60p"><strong style="color: white;">LMS</strong>
+
+                    <!-- Text -->
+                    <strong><p class="text-gray-800 mb-4 font-size-sm-alone">
+                        Online Learning Management System
+                    </p></strong>
+
+{#                    <div class="mb-4">#}
+{#                        <a href="tel:1234567890" class="text-gray-800 font-size-sm-alone">0300-0000000</a><br>#}
+{#                        <a href="tel:1234567890" class="text-gray-800 font-size-sm-alone">0300-0000000</a>#}
+{##}
+{#                    </div>#}
+
+{#                    <div class="mb-4">#}
+{#                        <a class="text-gray-800 font-size-sm-alone">user@gmail.com</a><br>#}
+{#                        #}
+{#                    </div>#}
+                </div>
+
+                <div class="col-12 col-md-4 col-lg-2">
+                    <div class="mb-5 mb-xl-0 footer-accordion">
+
+                        <!-- Heading -->
+                        <div id="widgetOne">
+                            <h5 class="mb-5">
+                                <button class="text-dark fw-medium footer-accordion-toggle d-flex align-items-center"
+                                        type="button" data-bs-toggle="collapse" data-bs-target="#widgetcollapseOne"
+                                        aria-expanded="true" aria-controls="widgetcollapseOne">
+                                    Our Company
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="widgetcollapseOne" class="collapse show" aria-labelledby="widgetOne"
+                             data-parent="#accordionFooter">
+                            <!-- List -->
+                            <ul class="list-unstyled text-gray-800 font-size-sm-alone mb-6 mb-md-8 mb-lg-0">
+                                <li class="mb-3">
+                                    <a href="{% url 'about_us' %}" class="text-reset">
+                                        About Us
+                                    </a>
+                                </li>
+                                <li class="mb-3">
+                                    <a href="{% url 'contact_us' %}" class="text-reset">
+                                        Contact Us
+                                    </a>
+                                </li>
+                                <li class="mb-3">
+                                    <a href="{% url 'instructor' %}" class="text-reset">
+                                        Our Instructors
+                                    </a>
+                                </li>
+
+                                <li class="mb-3">
+                                    <a href="{% url 'single_course' %}" class="text-reset">
+                                        view courses
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4 col-lg-2">
+                    <div class="mb-5 mb-xl-0 ms-xl-6 footer-accordion">
+
+                        <!-- Heading -->
+                        <div id="widgetTwo">
+                            <h5 class="mb-5">
+                                <button class="text-dark fw-medium footer-accordion-toggle d-flex align-items-center"
+                                        type="button" data-bs-toggle="collapse" data-bs-target="#widgetcollapseTwo"
+                                        aria-expanded="false" aria-controls="widgetcollapseTwo">
+                                    Topics
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="widgetcollapseTwo" class="collapse" aria-labelledby="widgetTwo"
+                             data-parent="#accordionFooter">
+                            <!-- List -->
+                            <ul class="list-unstyled text-gray-800 font-size-sm-alone mb-6 mb-md-8 mb-lg-0">
+                                <li class="mb-3">
+                                    <a>
+                                        HTML
+                                    </a>
+                                </li>
+                                <li class="mb-3">
+                                    <a>
+                                        Java
+                                    </a>
+                                </li>
+                                <li class="mb-3">
+                                    <a>
+                                        Python
+                                    </a>
+                                </li>
+                                <li class="mb-3">
+                                    <a>
+                                        JavaScript
+                                    </a>
+                                </li>
+                                <li class="mb-3">
+                                    <a>
+                                        Ruby
+                                    </a>
+                                </li>
+                                <li class="mb-3">
+                                    <a>
+                                        PHP
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4 offset-md-4 col-lg-2 offset-lg-0">
+                    <div class="mb-5 mb-xl-0 ms-xl-6 footer-accordion">
+
+                        <!-- Heading -->
+                        <div id="widgetThree">
+                            <h5 class="mb-5">
+                                <button class="text-dark fw-medium footer-accordion-toggle d-flex align-items-center"
+                                        type="button" data-bs-toggle="collapse" data-bs-target="#widgetcollapseThree"
+                                        aria-expanded="false" aria-controls="widgetcollapseThree">
+                                    We Managed
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="widgetcollapseThree" class="collapse" aria-labelledby="widgetThree"
+                             data-parent="#accordionFooter">
+                            <!-- List -->
+                            <ul class="list-unstyled text-gray-800 font-size-sm-alone mb-0">
+                                <li class="mb-3">
+                                    <a>
+                                        Web Course
+                                    </a>
+                                </li>
+                                <li class="mb-3">
+                                    <a>
+                                        Java Course
+                                    </a>
+                                </li>
+                                <li class="mb-3">
+                                    <a  class="text-reset">
+                                        PHP Course
+                                    </a>
+                                </li>
+                                <li class="mb-3">
+                                    <a class="text-reset">
+                                        Python Course
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-4 col-lg-2 d-xl-flex">
+                    <div class="mb-5 mb-xl-0 ms-xl-auto footer-accordion">
+
+                        <!-- Heading -->
+                        <div id="widgetFour">
+                            <h5 class="mb-5">
+                                <button class="text-dark fw-medium footer-accordion-toggle d-flex align-items-center"
+                                        type="button" data-bs-toggle="collapse" data-bs-target="#widgetcollapseFour"
+                                        aria-expanded="false" aria-controls="widgetcollapseFour">
+                                    Our Code Exists
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="widgetcollapseFour" class="collapse" aria-labelledby="widgetFour"
+                             data-parent="#accordionFooter">
+                            <!-- List -->
+                            <ul class="list-unstyled text-gray-800 font-size-sm-alone mb-0">
+                                <li class="mb-3">
+                                    <a href="https://github.com/nadeali0999/FYP" class="text-reset">
+                                        Git Hub
+                                    </a>
+                                </li>
+                                <li class="mb-3">
+                                    <a href="https://drive.google.com/drive/my-drive" class="text-reset">
+                                        Google drive
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- / .row -->
+
+            <strong>
+                <div class="py-8 text-center">
+                    
+                    <p class="text-gray-800 font-size-sm-alone mb-0 px-9 px-md-0">Copyright © 2024. All Right
+                        Reserved.</p>
+                </div>
+            </strong>
+        </div>
+    </footer>
+{% endblock %}

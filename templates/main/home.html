@@ -1,0 +1,296 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+    <section class="py-13 pt-xl-14 mt-n13 pb-lg-12 bg-cover position-relative"
+             style="background: linear-gradient(90deg, #FFEBE5 0.13%, #EDEAF6 100.01%);">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 col-md-5 col-lg-5 order-md-2" data-aos="fade-in">
+
+                    <!-- Image -->
+                    <img src="{% static 'assets/img/illustrations/illustration-5.svg' %}"
+                         class="img-fluid ms-xl-n11 mw-md-174 mb-6 mb-md-0" alt="...">
+
+                </div>
+
+                <div class="col-12 col-md-7 col-lg-7 order-md-1">
+                    <!-- Heading -->
+                    <h1 class="display-2 text-gradient-1 text-capitalize" data-aos="fade-left" data-aos-duration="150">
+                        Online Learning Management<span class="fw-bold"> System</span>
+                    </h1>
+
+                    <!-- Text -->
+                    <p class="lead pe-md-8 pe-xl-12 text-capitalize" data-aos="fade-up" data-aos-duration="200">
+                        Technology is bringing a massive wave of evolution on learning things in different ways.
+                    </p>
+
+                    <!-- Buttons -->
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'single_course' %}"
+                           class="btn btn-gigas btn-wide rounded-lg d-none d-lg-inline-block"
+                           data-aos="fade-up" data-aos-duration="200">VIEW COURSES</a>
+                    {% else %}
+                        <a href="{% url 'login' %}"
+                           class="btn btn-tangerine btn-wide rounded-lg mb-4 mb-md-0 me-md-5 text-w"
+                           data-aos="fade-up" data-aos-duration="200">GET STARTED</a>
+                    {% endif %}
+                <a href="http://127.0.0.1:8000/admin/"
+                           class="btn btn-tangerine btn-wide rounded-lg mb-4 mb-md-0 me-md-5 text-w"
+                           data-aos="fade-up" data-aos-duration="200">View Admin Panel</a>
+                </div>
+            </div> <!-- / .row -->
+        </div> <!-- / .container -->
+        <!-- Shape -->
+        <div class="d-none d-wd-block shape shape-blur shape-left shape-fluid-y svg-shim text-white">
+            <svg viewBox="0 0 310 800" fill="none" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px">
+                <path fill="currentColor" d="M193,0H0v800h310c-64.6,0-117-52.4-117-117V0z"/>
+            </svg>
+
+        </div>
+    </section>
+
+
+    <!-- FEATURED PRODUCT
+        ================================================== -->
+    <section class="pt-5 pb-9 py-md-11 bg-white">
+        <div class="container container-wd">
+            <div class="row align-items-end mb-7">
+                <div class="col-xl mb-5 mb-xl-0">
+                    <h1 class="mb-1">Featured Courses</h1>
+                    <p class="font-size-lg text-capitalize mb-0">Discover your perfect program in our courses.</p>
+                </div>
+                <div class="col-xl-auto">
+                    <!-- Nav -->
+                    <div class="nav justify-content-lg-start justify-content-xl-center justify-content-center tab-nav-1"
+                         id="pills-tab" role="tablist">
+                        <a class="btn-sm btn-pill me-1 mb-1 text-dark fw-medium px-6 active" id="pills-all-tab"
+                           data-bs-toggle="tab" href="#pills-all" role="tab" aria-controls="pills-all"
+                           aria-selected="true">
+                            All Categories
+                        </a>
+                        {% for i in categories %}
+                            <a class="btn-sm btn-pill me-1 mb-1 text-dark fw-medium px-6" id="pills-art-tab"
+                               data-bs-toggle="tab" href="#pills-{{ i.id }}" role="tab" aria-controls="pills-{{ i.id }}"
+                               aria-selected="false">
+                                {{ i.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content flickity-tab" id="pills-tabContent">
+
+                <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
+                    <!-- Items -->
+                    <div class="mx-n4 flickity-button-outset"
+                         data-flickity='{"pageDots": true, "prevNextButtons": true, "cellAlign": "left", "wrapAround": true, "imagesLoaded": true}'>
+                        {% for i in course %}
+                            <div class="col-12 col-md-6 col-xl-4 col-wd-3 pb-4 pb-md-7"
+                                 style="padding-right:15px;padding-left:15px;">
+                                <!-- Card -->
+                                <div class="card border shadow p-2 rounded-lg sk-fade">
+                                    <!-- Image -->
+                                    <div class="card-zoom position-relative">
+                                        <div class="badge-float sk-fade-top top-0 right-0 mt-4 me-4">
+                                            <a href="{{ i.get_slug }}"
+                                            </a>
+                                            <a href="{{ i.get_slug }}"
+                                            </a>
+                                        </div>
+
+                                        <a href="{{ i.get_slug }}" class="card-img sk-thumbnail img-ratio-9 d-block">
+                                            <img class="rounded shadow-light-lg" src="/{{ i.featured_image }}"
+                                                 alt="...">
+                                        </a>
+
+                                    </div>
+
+                                    <!-- Footer -->
+                                    <div class="card-footer px-2 pb-2 mb-1 pt-4 position-relative">
+                                        <a href="{{ i.get_slug }}" class="d-block">
+                                            <div class="avatar avatar-xl badge-float position-absolute top-0 right-0 mt-n6 me-5 rounded-circle shadow border border-white border-w-lg">
+                                                <img src="/{{ i.author.author_profile }}" alt="..."
+                                                     class="avatar-img rounded-circle">
+                                            </div>
+                                        </a>
+
+                                        <!-- Preheading -->
+                                        <a href="{{ i.get_slug }}"><span
+                                                class="mb-1 d-inline-block text-gray-800">{{ i.category.name }}</span></a>
+
+                                        <br><br>
+                                        <!-- Heading -->
+                                        <div class="position-relative">
+                                            <a href="{{ i.get_slug }}" class="d-block stretched-link"><h4
+                                                    class="line-clamp-2 h-md-48 h-lg-58 me-md-6 me-lg-10 me-xl-4 mb-2">{{ i.title }}</h4>
+                                            </a>
+
+                                            <div class="row mx-n2 align-items-end">
+                                                <div class="col px-2">
+                                                    <ul class="nav mx-n3">
+                                                        <li class="nav-item px-3">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="me-2 d-flex icon-uxs text-secondary">
+                                                                    <i class='fas fa-book-open'
+                                                                       style='font-size:20px'></i>
+                                                                </div>
+                                                                <strong>
+                                                                    <div class="font-size-lg">{{ i.lesson_set.count }}
+                                                                        Lessons
+                                                                    </div>
+                                                                </strong>
+                                                            </div>
+                                                        </li>
+                                                        <li class="nav-item px-3">
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="me-2 d-flex icon-uxs text-secondary">
+                                                                    <i class="fa fa-check-square-o"
+                                                                       style="font-size:22px;color:green"> </i>
+                                                                </div>
+                                                                <Strong>Publish</Strong>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <div class="col-auto px-2 text-right">
+                                                    {% if is_enrolled %}
+                                                        <button class="h4 mb-0 d-block mb-lg-n1"
+                                                                style="color: white;background: midnightblue">Enrolled
+                                                        </button>
+                                                    {% else %}
+                                                        {% if i.price == 0 %}
+                                                            <button class="h4 mb-0 d-block mb-lg-n1"
+                                                                    style="color: white;background: midnightblue">Free
+                                                            </button>
+                                                        {% else %}
+                                                            <button class="h4 mb-0 d-block mb-lg-n1"
+                                                                    style="color: white;background:darkgreen">
+                                                                $ {{ i.price }}
+                                                            </button>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- CATEGORIES
+    ================================================== -->
+    <section class="py-5 py-md-8 bg-white">
+        <div class="container container-wd">
+            <div class="row align-items-end mb-md-7 mb-4">
+                <div class="col-md mb-4 mb-md-0">
+                    <h1 class="mb-1">Trending Categories</h1>
+                    <p class="font-size-lg mb-0 text-capitalize">These are all our trending Categories</p>
+                </div>
+            </div>
+
+            <div class="row row-cols-2 row-cols-md-3 row-cols-xl-5 row-cols-wd-6">
+                {% for category in categories %}
+                    <div class="col mb-md-6 mb-4 px-2 px-md-4">
+                        <!-- Card -->
+                        <a
+                                class="card bg-lavender hover-gradient-1 rounded-lg p-md-5 p-3 h-210p text-center lift">
+                            <!-- Image -->
+                            <div class="mt-7 text-gigas display-4">
+                                {#                                <i class="{{ category.icon }}"></i>#}
+
+                                <!-- Footer -->
+                                <div class="card-footer px-0 pb-0 pt-4">
+                                    <h2 
+                                        class="mb-0 line-clamp-2 text-gigas">{{ category.name }}</h2>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        </div>
+    </section>
+
+
+    <!-- FEATURES GENERAL
+    ================================================== -->
+    <section class="py-5 py-md-8 bg-white">
+        <div class="container container-wd">
+            <div class="row align-items-center mb-6">
+                <div class="col-md-6 order-2" data-aos="fade-left">
+                    <h2>Learn at your own pace</h2>
+                    <p class="line-clamp-3 line-height-md">Experience the freedom to learn at your own pace. Tailor your
+                        studies to fit your schedule and progress as you see fit. No rush, no pressure just a
+                        personalized learning journey designed for you.
+                        Embrace the flexibility and make the most of your educational experience.
+                    </p>
+                </div>
+
+                <div class="col-md-6 order-1 mb-8 mb-md-0" data-aos="zoom-in">
+                    <img class="img-fluid" src="{% static 'assets/img/post/post-10.png' %}" alt="...">
+                </div>
+            </div>
+
+            <div class="row align-items-center">
+                <div class="col-md-6 order-2 order-md-1" data-aos="fade-right">
+                    <h2>Community of opportunities</h2>
+                    <p class="line-clamp-3 line-height-md">Join our learning you will be wonderful for the next you want
+                        to learn from us with huge knowledge and also find more oppurtunitues again...
+                    </p>
+                </div>
+
+                <div class="col-md-6 order-1 mb-8 mb-md-0 order-md-2 text-right" data-aos="zoom-in">
+                    <img class="img-fluid" src="{% static 'assets/img/post/post-11.png' %}" alt="...">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALL ACTION
+    ================================================== -->
+    <section class="py-6 py-md-10 bg-white">
+        <div class="container container-wd">
+            <div class="bg-gradient-1 rounded-lg py-md-9 py-8 px-md-8 px-5">
+                <div class="row align-items-center">
+                    <div class="col-xl-7 mb-4 mb-xl-0 text-capitalize">
+                        <h1 class="text-white mb-3">Watch our Contents</h1>
+                        <p class="font-size-lg text-white mb-3">Join us on this platform for further knowing us and
+                            check your knowledge with us.</p>
+                    </div>
+
+                    <div class="col-xl-5">
+                        <form>
+                            <div class="input-group d-block d-md-flex">
+                                <button class="btn btn-sm btn-secondary w-100 w-md-auto btn-wide rounded-lg border-0 me-md-3 mb-2 mb-md-0"
+                                        type="button" id="button-addon2"
+                                        onclick="window.location.href='{% url 'instructor' %}'">Our Instructor
+                                </button>
+                                <a href="{% url 'single_course' %}"
+                                   class="btn btn-sm btn-dark w-100 w-md-auto btn-wide rounded-lg border-0">
+                                    View Courses
+                                </a>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+{% endblock %}

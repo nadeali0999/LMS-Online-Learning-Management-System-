@@ -1,0 +1,359 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Course Details {% endblock %}
+{% block content %}
+    <br><br>
+    <div class="container">
+        <div class="row mb-8">
+            <div class="col-lg-8 mb-6 mb-lg-0 position-relative">
+                <h1 class="me-7 me-xl-14">
+                    {{ course.title }}
+                </h1>
+                <p class="me-xl-13 mb-5">{{ course.description|slice:":198" }}.....</p>
+
+
+                <!-- COURSE META
+                ================================================== -->
+                <div class="d-md-flex align-items-center mb-5">
+                    <div class="border rounded-circle d-inline-block mb-4 mb-md-0 me-md-6 me-lg-4 me-xl-6">
+                        <div class="p-2">
+                            <img src="/{{ course.author.author_profile }}" alt="..." class="rounded-circle" width="68"
+                                 height="68">
+                        </div>
+                    </div>
+
+                    <div class="mb-4 mb-md-0 me-md-8 me-lg-4 me-xl-8">
+                        <h6 class="mb-0">Created by</h6>
+                        <a class="font-size-sm text-gray-800">{{ course.author.user }}</a>
+                    </div>
+
+                    <div class="mb-4 mb-md-0 me-md-8 me-lg-4 me-xl-8">
+                        <h6 class="mb-0">Category</h6>
+                        <a class="font-size-sm text-gray-800">{{ course.category }}</a>
+                    </div>
+
+
+                </div>
+
+                <!-- COURSE INFO TAB
+                ================================================== -->
+                <div id="Overview" class="mb-8">
+                    <ul class="nav course-tab-v1 border-bottom h4 mb-8">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#Overview" data-bs-toggle="smooth-scroll"
+                               data-bs-offset="0">Overview</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#Curriculum" data-bs-toggle="smooth-scroll" data-bs-offset="0">Curriculum</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#Instructor" data-bs-toggle="smooth-scroll" data-bs-offset="0">Instructor</a>
+                        </li>
+
+                    </ul>
+
+                    <h3>Course Description</h3>
+                    <p class="mb-6 line-height-md">
+                        <span id="preview-text">{{ course.description|truncatewords:300 }}</span>
+                        <span class="collapse" id="full-text">{{ course.description }}</span>
+                        <a href="#" class="text-teal read-more h6 d-inline-block mb-8" data-bs-toggle="collapse"
+                           data-bs-target="#full-text" aria-expanded="false" aria-controls="full-text"
+                           onclick="toggleReadMore(this)">
+                          <span class="d-inline-flex align-items-center more">
+                         Read More
+                     <span class="d-flex align-items-center justify-content-center bg-teal rounded-circle ms-2 p-2 w-26p">
+                <i class="fas fa-plus font-size-10 text-white"></i>
+                 </span>
+                  </span>
+                            <span class="d-inline-flex align-items-center less" style="display:none;">
+                  Read Less
+                   <span class="d-flex align-items-center justify-content-center bg-teal rounded-circle ms-2 p-2 w-26p">
+                <i class="fas fa-minus font-size-10 text-white"></i>
+            </span>
+        </span>
+                        </a>
+                    </p>
+
+                    <h3 class="mb-5">What you'll learn</h3>
+                    <div class="row row-cols-lg-2 mb-8">
+                        <div class="col-md">
+                            <ul class="list-style-v1 list-unstyled">
+                                {% for i in course.what_to_learn_set.all|slice:":7" %}
+                                    <li>{{ i.points }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <div class="col-md">
+                            <ul class="list-style-v1 list-unstyled ms-xl-6">
+                                {% for i in course.what_to_learn_set.all|slice:"5:" %}
+                                    <li>{{ i.points }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3 class="mb-5">Requirements</h3>
+                    <ul class="list-style-v2 list-unstyled">
+                        {% for rq in course.requirements_set.all|slice:"0:5" %}
+                            <li>{{ rq.requirements }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+
+                {#            CURRICULUM #}
+
+                <h3 class="mb-5">Curriculum</h3>
+                <div id="Curriculum" class="mb-8">
+                    <div class="accordion" id="accordionCourseContent">
+                        {% for lesson in course.lesson_set.all %}
+                            <div class="border rounded shadow mb-4">
+                                <div class="d-flex align-items-center" id="heading{{ lesson.id }}">
+                                    <h5 class="mb-0 w-100">
+                                        <button class="d-flex align-items-center p-5 min-height-80 text-dark fw-medium"
+                                                type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#collapse{{ lesson.id }}" aria-expanded="true"
+                                                aria-controls="collapse{{ lesson.id }}"
+                                                style="border: none; color: white; background-color: transparent;">
+                        <span class="me-4">
+                            <i class="fas fa-chevron-down"></i>
+                        </span>
+                                            {{ lesson.name }}
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="collapse{{ lesson.id }}" class="collapse"
+                                     aria-labelledby="heading{{ lesson.id }}" data-parent="#accordionCourseContent">
+                                    <div class="border-top p-4">
+                                        {% for video in lesson.video_set.all %}
+                                            <div class="d-md-flex align-items-center justify-content-between mb-2">
+                                                <div class="d-flex align-items-center">
+                                                    <i class='fas fa-video me-3'></i>
+                                                    {% if is_enrolled %}
+                                                        <a href="{% url 'watch_course' slug=course.slug %}">{{ video.title }}</a>
+                                                    {% endif %}
+                                                    {% if not is_enrolled and video.preview %}
+                                                        {#                                                          #}
+                                                        <a href="https://www.youtube.com/watch?v={{ video.youtube_id }}"
+                                                           class="text-secondary">{{ video.title }}</a>
+                                                    {% elif not is_enrolled and video.preview %}
+                                                        {#                                                        and not video.preview #}
+                                                        <span class="text-secondary" data-toggle="tooltip"
+                                                              title="Enroll in the course to watch more">{{ video.title }}</span>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="badge text-dark-70 bg-orange-40 me-3">{{ video.time_duration }} Minutes</span>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                            </div>
+                        {% endfor %}
+                        {% for quiz in course.quizzes.all %}
+                            <div class="border rounded shadow mb-4">
+                                <div class="d-flex align-items-center" id="quizHeading{{ forloop.counter }}">
+                                    <h5 class="mb-0 w-100">
+                                        <button class="d-flex align-items-center p-5 min-height-80 text-dark fw-medium"
+                                                type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#quizCollapse{{ forloop.counter }}" aria-expanded="true"
+                                                aria-controls="quizCollapse{{ forloop.counter }}"
+                                                style="border: none; color: white; background-color: transparent;">
+                    <span class="me-4">
+                        <i class="fas fa-chevron-down"></i>
+                    </span>
+                                            {{ quiz.title }}
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="quizCollapse{{ forloop.counter }}" class="collapse"
+                                     aria-labelledby="quizHeading{{ forloop.counter }}"
+                                     data-parent="#accordionCourseContent">
+                                    <div class="border-top p-4">
+                                        <div class="d-flex align-items-center justify-content-between mb-2">
+                                            <div>
+                                                <i class='fas fa-question-circle me-3' style="font-size:36px"></i>
+                                                Total Questions: {{ quiz.questions.count }}
+                                            </div>
+                                            <div>
+                                                {% if is_enrolled %}
+                                                    {% if all_videos_completed %}
+                                                        {% if quiz_score is not None and quiz_score >= 3 %}
+                                                            <strong><p style="background: green; color: white">You
+                                                                passed Score = {{ quiz_score }}</p></strong>
+                                                        {% else %}
+                                                            <div class="quiz-link">
+                                                                <i class="fa fa-unlock" style="font-size:36px;"></i>
+                                                                <a href="{% url 'watch_course' slug=course.slug %}"
+                                                                   class="quiz-button">Go Take your quiz</a>
+                                                            </div>
+                                                        {% endif %}
+                                                    {% else %}
+                                                        <i class="fa fa-lock" style="font-size:36px"></i>
+                                                    {% endif %}
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+                <div id="Instructor" class="mb-8">
+                    <h3 class="mb-6">About the instructor</h3>
+                    <div class="d-flex align-items-center mb-6">
+                        <div class="d-inline-block rounded-circle border me-6 p-2">
+                            <div class="avatar avatar-size-120">
+                                <img src="/{{ course.author.author_profile }}" alt="..."
+                                     class="avatar-img rounded-circle">
+                            </div>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="mb-0">{{ course.author.user }}</h4>
+                            <span>{{ course.author.profession }}</span>
+                        </div>
+                    </div>
+
+                    <div class="row mx-xl-n5 mb-6">
+                        <div class="col-12 col-md-auto mb-3 mb-md-0 px-xl-5">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3 d-flex text-secondary icon-uxs">
+                                    <i class="fa fa-users" aria-hidden="true" style='font-size:25px'></i>
+                                </div>
+                                {{ enrolled_students_count }} students
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-auto mb-3 mb-md-0 px-xl-5">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3 d-flex text-secondary icon-uxs">
+                                    <i class='fas fa-book-open' style='font-size:25px'></i>
+                                </div>
+                                {{ course_count }} courses
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="mb-6 line-height-md">{{ course.author.about_author }}</p>
+                </div>
+
+            </div>
+
+            <div class="col-lg-4">
+
+
+                {#                course enrollment sidebar----------------------------------#}
+                <div class="d-block rounded border p-2 shadow mb-6">
+                    <a class="d-block sk-thumbnail rounded mb-1">
+                        <img class="rounded shadow-light-lg" src="/{{ course.featured_image }}" alt="...">
+                    </a>
+
+                    <div class="pt-5 pb-4 px-5 px-lg-3 px-xl-5">
+                        {% if course.price == 0 %}
+                            <div class="d-flex align-items-center mb-2">
+                                <ins class="h2 mb-0">Free</ins>
+                            </div>
+                        {% else %}
+                            <div class="d-flex align-items-center mb-2">
+                                <ins class="h2 mb-0">{{ course.price }} $</ins>
+                            </div>
+                        {% endif %}
+{% if is_enrolled %}
+    {% if quiz_score >= 3 %}
+        <a class="btn btn-success btn-block mb-6">Already Completed Course</a>
+    {% endif %}
+    <a class="btn btn-orange btn-block mb-6" disabled>Already Enrolled</a>
+{% else %}
+    {% if user.is_authenticated %}
+        {% if course.price == 0 %}
+            <a class="btn btn-primary btn-block mb-3" href="{% url 'Enrollment' course.slug %}">Enroll</a>
+        {% else %}
+            <a class="btn btn-primary btn-block mb-3" href="{% url 'payment_course' course.slug %}">Pay with Card</a>
+        {% endif %}
+    {% else %}
+        <a class="btn btn-primary btn-block mb-3" href="{% url 'login' %}?next={% url 'course_details' course.slug %}">Login to Enroll</a>
+    {% endif %}
+{% endif %}
+
+
+                        <ul class="list-group" style="color: blue">
+                            <li class="list-group-item d-flex align-items-center py-3">
+                                <div class="text-secondary d-flex icon-uxs">
+                                    <i class="fa fa-clock-o"></i>
+                                </div>
+                                <h6 class="mb-0 ms-3 me-auto">Duration</h6>
+                                <span>{{ time_duration }} Minutes</span>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center py-3">
+                                <div class="text-secondary d-flex icon-uxs">
+                                    <i class='fas fa-chalkboard'></i>
+                                </div>
+                                <h6 class="mb-0 ms-3 me-auto">Lectures</h6>
+                                <span>{{ course.video_set.all.count }}</span>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center py-3">
+                                <div class="text-secondary d-flex icon-uxs">
+                                    <i class="fa fa-users" aria-hidden="true"></i>
+                                </div>
+                                <h6 class="mb-0 ms-3 me-auto">Enrolled</h6>
+                                <span>{{ enrolled_students_count }} students</span>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center py-3">
+                                <div class="text-secondary d-flex icon-uxs">
+                                    <i class="fa fa-language" aria-hidden="true"></i>
+                                </div>
+                                <h6 class="mb-0 ms-3 me-auto">Language</h6>
+                                <span>{{ course.language }}</span>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center py-3">
+                                <div class="text-secondary d-flex icon-uxs">
+                                    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+                                </div>
+                                <h6 class="mb-0 ms-3 me-auto">Skill level</h6>
+                                <span>{{ course.level.name }}</span>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center py-3">
+                                <div class="text-secondary d-flex icon-uxs">
+                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                </div>
+                                <h6 class="mb-0 ms-3 me-auto">Created at</h6>
+                                <span>{{ course.created_at }}</span>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center py-3">
+                                <div class="text-secondary d-flex icon-uxs">
+                                    <i class='fas fa-universal-access' style='font-size:20px'></i>
+                                </div>
+                                <h6 class="mb-0 ms-3 me-auto">Access on cell & LED</h6>
+                                <span>Yes</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .quiz-link {
+            display: flex; /* Use flexbox */
+            align-items: center; /* Align items vertically */
+        }
+
+        .quiz-button {
+            background: midnightblue;
+            color: white;
+            padding: 10px 20px; /* Add padding for better appearance */
+            text-decoration: none; /* Remove default underline for links */
+            border-radius: 4px;
+            margin-left: 10px; /* Add some space between icon and link */
+        }</style>
+
+{% endblock %}
