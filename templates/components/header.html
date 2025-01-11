@@ -1,0 +1,137 @@
+{% load static %}
+
+<header class="navbar navbar-expand-xl navbar-light">
+    <div class="container">
+
+        <!-- Brand -->
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img src="{% static 'assets/img/favicon.png' %}" class="navbar-brand-img" alt="...">LMS
+        </a>
+
+        <ul class="navbar-nav navbar-vertical ms-xl-4 d-none d-xl-flex">
+            <li class="nav-item dropdown">
+                <a class="nav-link pb-4 mb-n4 px-0 pt-0" id="navbarVerticalMenu" data-bs-toggle="dropdown" href="#"
+                   aria-haspopup="true" aria-expanded="false">
+
+                </a>
+
+            </li>
+        </ul>
+
+        <!-- Collapse -->
+        <div class="collapse navbar-collapse z-index-lg" id="navbarCollapse">
+
+            <!-- Toggler -->
+            <button class="navbar-toggler outline-0 text-primary" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+                    aria-label="Toggle navigation">
+
+            </button>
+
+            <!-- Navigation -->
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item dropdown dropdown-full-width ">
+                    <a class="nav-link px-xl-4 text-gigas" href="{% url 'home' %}">
+                        <span>Home</span>
+                    </a>
+
+                </li>
+                <li class="nav-item dropdown dropdown-full-width">
+                    <a class="nav-link text-gigas" href="{% url 'about_us' %}">
+                        About
+                    </a>
+
+                </li>
+                <li class="nav-item dropdown dropdown-full-width">
+                    <a class="nav-link text-gigas" href="{% url 'contact_us' %}">
+                        Contact Us
+                    </a>
+
+                </li>
+                <li class="nav-item dropdown dropdown-full-width">
+                    <a class="nav-link text-gigas" href="{% url 'instructor' %}">
+                        Our Instructors
+                    </a>
+
+                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown dropdown-full-width">
+                        <a class="nav-link text-gigas" href="{% url 'my_learning' %}">
+                            My Learning
+                        </a>
+
+                    </li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown border-0 px-1 px-md-3">
+                        <strong><a class="nav-link dropdown-toggle" id="user" data-bs-toggle="dropdown" href="#"
+                                   aria-haspopup="true" aria-expanded="false">
+                            Welcome , {{ user.first_name }}&nbsp;{{ user.last_name }}
+                        </a></strong>
+
+                        <ul class="dropdown-menu border-xl shadow-none" aria-labelledby="user">
+                            <li class="dropdown-item">
+                                <a class="dropdown-link " href="{% url 'Profile_Update' %}">
+                                    Account
+                                </a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a class="dropdown-link" href="{% url 'my_learning' %}">
+                                    Enrolled Courses
+                                </a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a href="{% url 'logout' %}" class="dropdown-link">
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                {% else %}
+                    <li class="nav-item border-0 px-1 px-md-3 mt-3">
+                        <!-- Button trigger account modal -->
+                        <a class="nav-link d-flex p-3 bg-white-all rounded-circle text-gigas icon-xs"
+                           data-bs-toggle="modal" data-bs-target="#accountModal">
+                            <!-- Icon -->
+                            <button onclick="location.href='{% url 'login' %}'" style="border: none; background: none;">
+                                <i class="fas fa-user-circle" style="font-size:25px; color: midnightblue"></i>
+                            </button>
+                        </a>
+                    </li>
+
+                {% endif %}
+            </ul>
+        </div>
+
+        <!-- Search, Account & Cart -->
+        <ul class="navbar-nav flex-row ms-n4 ms-sm-auto ms-xl-0 me-n2 me-md-n4">
+            <li class="nav-item border-0 px-1 px-md-3 d-none d-370-block d-xl-block">
+                <a class="nav-link d-flex p-3 bg-white-all rounded-circle search-mobile text-gigas icon-xs"
+                   data-bs-toggle="collapse" href="#collapseSearchMobile" role="button" aria-expanded="false"
+                   aria-controls="collapseSearchMobile">
+                    <i class="fa fa-search" style="font-size:25px"></i>
+                </a>
+
+                <div class="collapse position-absolute right-0 left-0" id="collapseSearchMobile">
+                    <div class="card card-body p-4 mt-7 shadow-dark">
+                        <!-- Search -->
+                        <form class="w-100" method="get" action="{% url 'search_course' %}">
+                            <div class="input-group border rounded">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-sm text-secondary icon-xs d-flex align-items-center"
+                                            type="submit">
+                                        <i class="fa fa-search" style="font-size:25px"></i>
+                                    </button>
+                                </div>
+                                <input class="form-control form-control-sm border-0 ps-0" type="search"
+                                       placeholder="Which Course you want to Search here?" aria-label="Search"
+                                       name="query">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</header>

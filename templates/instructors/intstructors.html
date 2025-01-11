@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Our Instructors {% endblock %}
+{% block content %}
+
+    <div class="container mb-6 mb-xl-8 z-index-2">
+        <div class="d-xl-flex align-items-center">
+            <div class="mx-xl-auto d-xl-flex flex-wrap">
+                <div class="mb-4 mb-xl-0 ms-xl-6">
+                    <!-- Search -->
+                    <br><br>
+                    <form class="" method="GET">
+                        <div class="input-group input-group-filter">
+                            <input class="form-control form-control-sm placeholder-dark shadow-none border-end-0"
+                                   type="search" name="q" placeholder="Search our Instructors" aria-label="Search">
+                            <div class="input-group-append">
+                                <button class="btn btn-sm btn-outline-white border-start-0 text-dark bg-transparent"
+                                        type="submit">
+                                    <!-- Icon -->
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <i class="fa fa-search" style="font-size:30px"></i>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+<!-- Add this modal container at the end of your HTML body -->
+<div class="modal fade" id="authorModal" tabindex="-1" role="dialog" aria-labelledby="authorModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 style="text-align: center" class="modal-title" id="authorModalLabel">Author Details</h5>
+      </div>
+      <div class="modal-body">
+        <div id="authorDetails">
+          <p><strong>Profession:</strong> <span id="authorProfession"></span></p>
+          <p><strong>About:</strong> <span id="authorAbout"></span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modify your existing HTML -->
+<div class="container pb-4 pb-xl-7">
+    <div class="row row-cols-md-3 row-cols-lg-4 mb-6 mb-xl-3">
+        {% if authors %}
+            {% for author in authors %}
+                <div class="col-md pb-4 pb-md-7">
+                    <div class="card border shadow p-2 lift">
+                        <!-- Image -->
+                        <div class="card-zoom position-relative">
+                            <div class="card-float card-hover right-0 left-0 bottom-0 mb-4">
+                            </div>
+                            <!-- Add data attributes to store author details -->
+                            <a href="#" class="card-img sk-thumbnail img-ratio-4 card-hover-overlay d-block show-author-details"
+                               data-toggle="modal" data-target="#authorModal"
+                               data-name="{{ author.user.username }}" data-profession="{{ author.profession }}"
+                               data-about="{{ author.about_author }}">
+                                <img class="rounded shadow-light-lg img-fluid" src="{{ author.author_profile.url }}"
+                                     alt="{{ author.user.username }}">
+                            </a>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="card-footer px-3 pt-4 pb-1">
+                            <a href="#" class="d-block show-author-details"><h5 class="mb-0">{{ author.user.username }}</h5></a>
+                            <span class="font-size-d-sm">{{ author.profession }}</span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div style="text-align: center; font-size: 20px;">
+                {% if request.GET.q %}
+                    <p>No instructors found for "{{ request.GET.q }}".</p>
+                {% else %}
+                    <p>No instructors found.</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Add this JavaScript to your page to handle the click event and populate the modal with author details -->
+<script>
+    $(document).ready(function(){
+        $('.show-author-details').on('click', function (event) {
+            event.preventDefault(); // Prevent the default behavior of the anchor element
+
+            var name = $(this).data('name'); // Extract info from data-* attributes
+            var profession = $(this).data('profession');
+            var about = $(this).data('about');
+
+            var modal = $('#authorModal');
+            modal.find('.modal-title').text(name);
+            modal.find('#authorProfession').text(profession);
+            modal.find('#authorAbout').text(about);
+
+            modal.modal('show'); // Show the modal
+        });
+    });
+</script>
+
+
+{% endblock %}

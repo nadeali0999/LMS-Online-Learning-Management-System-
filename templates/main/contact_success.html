@@ -1,0 +1,51 @@
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: rebeccapurple;
+        margin: 0;
+    }
+
+    .message-container {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .message-container h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: #28a745;
+    }
+
+    .message-container p {
+        font-size: 1.25rem;
+        color: black;
+        margin-bottom: 2rem;
+    }
+
+    .message-container button {
+        padding: 0.5rem 1.5rem;
+        font-size: 1rem;
+        color: white;
+        background-color: midnightblue;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .message-container button:hover {
+        background-color: green;
+    }
+</style>
+
+<div class="message-container">
+    <h1>Thank you for your message!</h1>
+    <p>We will get back to you soon.</p>
+    <button onclick="window.location.href='{% url 'home' %}';" class="btn btn-primary">Back to Home</button>
+</div>

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} My Learning {% endblock %}
+{% block content %}
+    <br><br>
+<div class="container">
+    <div class="row">
+        {% for data in course_data %}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body d-flex">
+                        <img src="{{ data.course.featured_image.url }}" alt="Course Image" class="mr-3"
+                             style="width: 50px; height: 50px; border-radius: 4px;">
+                        <div>
+                            <h2 class="card-title mb-1">{{ data.course.title }}</h2>
+                            <p class="card-text"><strong>{{ data.course.category.name }}</strong></p>
+                            <p class="card-text">{{ data.course.description|slice:":400" }}......</p>
+                            <div class="quiz-status">
+                                {% if data.quiz_score is not None %}
+                                    {% if data.quiz_score >= 3 %}
+                                        <p class="bg-success text-black " style="font-weight: bold; font-size: 18px; color: black">Quiz Score: {{ data.quiz_score }}</p>
+                                        <p class="bg-success text-black" style="font-weight: bold; font-size: 18px; color: black">Congratulations! You passed this course</p>
+                                    {% else %}
+                                        <p style="background: green;color: white; font-weight: bold; font-size: 18px;">You are Enrolled in this Course</p>
+                                    {% endif %}
+                                {% else %}
+                                    <p style="background: green;color: white; font-weight: bold; font-size: 18px;">You are Enrolled in this Course</p>
+                                {% endif %}
+                            </div>
+                            <a href="{{ data.course.get_slug }}" class="btn btn-primary">Go To Course</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+    <br><br><br><br><br><br>
+{% endblock %}

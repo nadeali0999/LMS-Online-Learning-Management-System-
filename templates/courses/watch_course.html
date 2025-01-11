@@ -1,0 +1,213 @@
+{% include 'base2.html' %}
+{% load static %}
+
+<!-- NAVBAR -->
+<header class="bg-white border-bottom py-3 header-fixed">
+    <div class="px-5 px-lg-8 w-100">
+        <div class="d-md-flex align-items-center">
+            <!-- Brand -->
+            <a class="navbar-brand mb-2 mb-md-0" href="{% url 'home' %}">
+                <img src="{% static 'assets/img/favicon.png' %}" class="navbar-brand-img" alt="...">LMS
+            </a>
+
+            <!-- Lesson Title -->
+            <div class="ms-md-6 ms-wd-12 ms-xl-10 me-auto mb-5 mb-md-0">
+                <h3 class="mb-0 line-clamp-2 ms-wd-3">{{ course.category }} : {{ course.title }}</h3>
+            </div>
+
+            <!-- Back to Course -->
+            <a href="{% url 'course_details' slug=course.slug %}"
+               class="btn btn-sm btn-primary ms-md-6 px-6 mb-3 mb-md-0 flex-shrink-0">Back to Course</a>
+        </div>
+    </div>
+</header>
+
+<!-- COURSE -->
+<div class="mt-15 mt-md-11 pt-md-3">
+    <div class="sidebar-collapse">
+        <a class="text-white bg-primary rounded-right-lg p-4 w-60p h-50p" data-bs-toggle="collapse"
+           href="#sidebarcollapseExample" role="button" aria-expanded="false" aria-controls="sidebarcollapseExample">
+            <!-- Icon -->
+            <svg width="25" height="17" viewBox="0 0 25 17" xmlns="http://www.w3.org/2000/svg">
+                <rect width="25" height="1" fill="currentColor"/>
+                <rect y="8" width="15" height="1" fill="currentColor"/>
+                <rect y="16" width="20" height="1" fill="currentColor"/>
+            </svg>
+            <svg width="16" height="17" viewBox="0 0 16 17" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0.142135 2.00015L1.55635 0.585938L15.6985 14.7281L14.2843 16.1423L0.142135 2.00015Z"
+                      fill="currentColor"></path>
+                <path d="M14.1421 1.0001L15.5563 2.41431L1.41421 16.5564L0 15.1422L14.1421 1.0001Z"
+                      fill="currentColor"></path>
+            </svg>
+        </a>
+
+        <div class="collapse shadow" id="sidebarcollapseExample">
+            <div id="accordionCurriculum" class="sidebar-collapse-scroll">
+                <div class="overflow-hidden">
+                    <!-- Curriculum Section -->
+                    {% for lesson in course.lesson_set.all %}
+                        <div class="d-flex align-items-center" id="curriculumheading{{ lesson.id }}">
+                            <h5 class="mb-0 w-100">
+                                <button class="d-flex align-items-center p-5 min-height-80 text-dark fw-medium collapse-accordion-toggle line-height-one"
+                                        type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#Curriculumcollapse{{ lesson.id }}" aria-expanded="false"
+                                        aria-controls="Curriculumcollapse{{ lesson.id }}">
+                                    <span class="me-4 text-dark d-flex">
+                                        <!-- Icon -->
+                                        <i class="fas fa-chevron-down"></i>
+                                    </span>
+                                    {{ lesson.name }}
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="Curriculumcollapse{{ lesson.id }}" class="collapse"
+                             aria-labelledby="curriculumheading{{ lesson.id }}" data-parent="#accordionCurriculum">
+                            {% for video in lesson.video_set.all %}
+                                <div class="border-top px-5 py-4 min-height-70 d-md-flex align-items-center">
+                                    <div class="d-flex align-items-center me-auto mb-4 mb-md-0">
+                                        <div class="text-secondary d-flex">
+                                            <i class='fas fa-video me-3'></i>
+                                        </div>
+                                        <div class="ms-4">
+                                            {% if is_enrolled %}
+                                                <a href="?lecture={{ video.id }}"
+                                                   class="text-secondary">{{ video.title }}</a>
+
+                                            {% else %}
+                                                <a href="https://www.youtube.com/watch?v={{ video.youtube_id }}"
+                                                   class="text-secondary">{{ video.title }}</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center overflow-auto overflow-md-visible flex-shrink-all">
+                                        <div class="badge btn-blue-soft me-5 font-size-sm fw-normal py-2">{{ video.time_duration }}
+                                            min
+                                        </div>
+                                        {% if is_enrolled %}
+                                            <i class="fa fa-check-circle" data-video-id="{{ video.id }}"
+                                               style="font-size:36px; color: {% if video.is_completed %}green{% else %}gray{% endif %};"></i>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+
+                    <!-- Quizzes Section -->
+                    {% for quiz in course.quizzes.all %}
+                        <div class="rounded shadow mb-4">
+                            <div class="d-flex align-items-center" id="quizHeading{{ forloop.counter }}">
+                                <h5 class="mb-0 w-100">
+                                    <button class="d-flex align-items-center p-5 min-height-80 text-dark fw-medium"
+                                            type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#quizCollapse{{ forloop.counter }}" aria-expanded="false"
+                                            aria-controls="quizCollapse{{ forloop.counter }}"
+                                            style="border: none; color: white; background-color: transparent;">
+                    <span class="me-4">
+                        <i class="fas fa-chevron-down"></i>
+                    </span>
+                                        {{ quiz.title }}
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="quizCollapse{{ forloop.counter }}" class="collapse"
+                                 aria-labelledby="quizHeading{{ forloop.counter }}" data-parent="#accordionCurriculum">
+                                <div class="border-top p-4">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <div>
+                                            <i class='fas fa-question-circle me-3'></i>
+                                            Total Questions: {{ quiz.questions.count }}
+                                        </div>
+                                        <div>
+                                            {% if is_enrolled %}
+                                                {% if all_videos_completed %}
+                                                   {% if quiz_score is not None and quiz_score >= 3 %}
+                                                        <strong><p style="background: green; color: white">You
+                                                            passed Score: {{ quiz_score  }}</p></strong>
+                                                    {% else %}
+                                                        <a href="{% url 'quiz_start' course_slug=course.slug quiz_id=quiz.id %}"
+                                                           class="btn btn-sm btn-primary px-6 mb-3 mb-md-0 flex-shrink-0">Take
+                                                            Quiz</a>
+                                                    {% endif %}
+                                                {% else %}
+                                                    <strong><p style="background: red; color: white">Watch All videos to
+                                                        unlock</p></strong>
+                                                {% endif %}
+                                            {% endif %}
+                                        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="row mb-11">
+            <div class="col-lg-11 col-wd-12 ms-lg-auto pt-11 pt-lg-8">
+                <h2 class="font-size-xl mb-6">
+                    <a href="?lecture={{ video.id }}">
+                        {{ video.title }}
+                    </a>
+                </h2>
+
+                <a href="https://www.youtube.com/watch?v={{ video.youtube_id }}"
+                   class="d-block sk-thumbnail rounded mb-8"
+                   data-fancybox>
+                    <div class="h-90p w-90p rounded-circle bg-white size-30-all d-inline-flex align-items-center justify-content-center position-absolute center z-index-1">
+                        <i class="fa fa-play" style="font-size:42px; color: midnightblue"></i>
+
+                    </div>
+                    <img class="rounded shadow-light-lg" src="/{{ video.thumbnail }}" alt="Product Image">
+                </a>
+                <div class="d-flex justify-content-end">
+                    <form id="mark-complete-form" action="{% url 'watch_course' slug=course.slug %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="video_id" value="{{ video.id }}">
+                        <button class="btn btn-sm btn-primary px-6 mb-3 mb-md-0 flex-shrink-0">Mark as
+                            Completed
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <a href="/chat/" class="btn btn-sm btn-primary ms-md-6 px-6 mb-3 mb-md-0 flex-shrink-0 chat-button">Chat with
+        Instructor</a>
+
+</div>
+
+<style>
+
+    .chat-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: midnightblue; /* Primary color */
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+    }
+
+
+</style>
+
+<script>
+
+
+    // Close the chat box when clicking outside of it
+
+
+</script>

@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block content %}
+    <!-- PAGE TITLE
+        ================================================== -->
+    <header class="py-8 py-md-11" style="background-image: none;">
+        <div class="container text-center py-xl-2">
+            <h1 class="display-4 fw-semi-bold mb-0">Get in touch today!</h1>
+        </div>
+    </header>
+
+
+    <!-- CONTACT
+    ================================================== -->
+    <div class="container">
+        <div class="row row-cols-md-2 mb-8 mb-lg-11">
+            <div class="col-md">
+                <h1 class="mb-6">Contact Details</h1>
+
+                <div class="row row-cols-12 row-cols-xl-2">
+                    <div class="col-xl mb-6">
+                        <div class="media d-flex">
+                            <div class="me-5">
+                                <!-- Icon -->
+                                <i class="fa fa-map-marker" style="font-size:36px"></i>
+
+                            </div>
+                            <div class="media-body flex-shrink-1">
+                                <h5 class="mb-4">Find Us</h5>
+                                <address class="">
+                                    PUNJAB,FAISALABAD
+                                </address>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl mb-6">
+                        <div class="media d-flex">
+                            <div class="me-5">
+                                <!-- Icon -->
+                                <i class="fa fa-phone" style="font-size:36px"></i>
+
+                            </div>
+                            <div class="media-body flex-shrink-1">
+                                <h5 class="mb-4">Phone</h5>
+                                <a class="text-gray-800 d-block">0349-4233608</a>
+                                <a class="text-gray-800 d-block">0306-1612447</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl mb-6">
+                        <div class="media d-flex">
+                            <div class="me-5">
+                                <!-- Icon -->
+                                <i class='fas fa-clock' style='font-size:31px'></i>
+
+                            </div>
+                            <div class="media-body flex-shrink-1">
+                                <h5 class="mb-4">Working Hours</h5>
+                                <p class="mb-0">Mon-Fri: 8 AM - 5 PM</p>
+                                <p class="mb-0">Sat-Sun Holiday</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl mb-6">
+                        <div class="media d-flex">
+                            <div class="me-5">
+                                <!-- Icon -->
+                                <i class="fa fa-pencil" style="font-size:34px"></i>
+
+                            </div>
+                            <div class="media-body flex-shrink-1">
+                                <h5 class="mb-4">Write to Us</h5>
+                                <a class="text-gray-800">nadeali05555@gmail.com</a>
+                                <a class="text-gray-800">mohammadsami1385@gmail.com</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="container">
+                <h1 class="mb-6">Have A Question?</h1>
+                <form class="row" method="post" action="{% url 'contact' %}">
+                    {% csrf_token %}
+                    <div class="form-group mb-6 col-xl-6">
+                        <label for="exampleInputTitle1">Name</label>
+                        <input type="text" class="form-control placeholder-1" id="exampleInputTitle1"
+                               placeholder="Enter your name" name="name">
+                        {% if form.name.errors %}
+                            <div class="text-danger">
+                                {{ form.name.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group mb-6 col-xl-6">
+                        <label for="exampleInputTitle2">Email</label>
+                        <input type="email" class="form-control placeholder-1" id="exampleInputTitle2"
+                               placeholder="Enter your Email" name="email">
+                        {% if form.email.errors %}
+                            <div class="text-danger">
+                                {{ form.email.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group mb-6 col-12">
+                        <label for="exampleFormControlTextarea1">Message</label>
+                        <textarea class="form-control placeholder-1" id="exampleFormControlTextarea1" rows="6"
+                                  placeholder="Write your message" name="message"></textarea>
+                        {% if form.message.errors %}
+                            <div class="text-danger">
+                                {{ form.message.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary btn-block mw-md-300p">SEND</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+
+{% endblock %}
