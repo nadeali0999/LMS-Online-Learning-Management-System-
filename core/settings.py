@@ -19,6 +19,7 @@ DEBUG = True
 # # FYP/settings.py
 #
 # ALLOWED_HOSTS = ['example.com', 'www.example.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [".vercel.app", ".now.sh"]
 
 
 # Application definition
